@@ -22,7 +22,7 @@ on:
       - '**.md'
       - 'LICENSE'
       - 'NOTICE'
-
+  workflow_dispatch:
 jobs:
   BuildUnsigned:
     runs-on: ubuntu-latest
@@ -52,3 +52,9 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon app:assembleFossRelease
+      - name: upload apk
+        uses: actions/upload-artifact@main
+        if: always()
+        with: 
+          name: xupdate_apk_package
+          path: ${{ github.workspace }}/app/build/outputs/apk/foss/release
